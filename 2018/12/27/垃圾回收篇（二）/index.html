@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="Reeves">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="hexo">
+  <meta property="og:title" content="垃圾回收篇（二）">
   <meta property="og:description" content="">
   <meta property="og:site_name" content="Reeves">
   <meta property="og:type" content="article">
@@ -43,7 +43,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">hexo</p>
+          <p class="title">垃圾回收篇（二）</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -99,14 +99,14 @@
           
           <!-- Date -->
           <span class="date-time info">On
-            <span class="date">2018-12-25</span>
+            <span class="date">2018-12-27</span>
             <span class="time">15:24:45</span>
           </span>
           
           <!--  Categories  -->
             <span class="categories info">Under 
 
-<a href="/categories/hexo/">hexo</a>
+<a href="/categories/java/">java</a>
 </span>
           
         </div>
@@ -114,15 +114,16 @@
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+          <p>这篇主要聊垃圾收集的算法</p>
+<p>1.标记-清除算法（最基础的算法）</p>
+<p>分为“标记”和“清除”两个阶段：<br>首先标记处所有需要回收的对象，在标记完成后统一回收所有被标记的对象。</p>
+<p>主要不足：<br>（1）效率问题：标记和清除两个过程的效率都不高<br>（2）空间问题：标记清除之后会产生大量不连续的内存碎片，当碎片产生过多时可能导致之后程序的运行时需要分配较大对象时无法找到足够的连续的内存，而不得不提前出发另一次垃圾收集操作</p>
+<p>2.复制算法</p>
+<p>将可用内存分为大小相等的两块，每次只使用其中的一块。当这一块内存使用完以后，就还存活的对象复制到另外一块内存上面，然后将已使用过的内存空间一次清理掉。这样使得每次都是对整个半区进行内存回收，内存分配时就不需要考虑内存碎片等复杂情况，只需要移动堆顶指针，按顺序分配内存即可，简单高效。<br>主要不足：<br>内存缩小为原来的一半，代价太高，可能造成gc频繁。</p>
+<p>研究表明，新生代中的对象98%是“朝生夕死”的，所以不需要按照1:1的比例来划分内存空间。将内存分为一块较大的Eden空间和两块较小的Survivor空间，每次使用Eden空间和其中一块Survivor空间。当回收时，将Eden和Survivor中存活的对象一次性复制到另一块Survivor空间上，最后清理掉已使用的空间。HotSpot虚拟机默认Eden和Survivor的大小比为8:1，这样做的话只有10%的内存会被“浪费”。但是无法保证每次回收只有不多于10%的对象存活，当Survivor空间不够时，需要依赖其他内存（老年代）分配担保。</p>
+<p>复制手机算法在对象存活率较高时会进行较多的复制操作，导致效率变低。如果不想浪费50%的空间，就需要额外的空间进行分配担保。</p>
+<h1 id="3-标记-整理算法"><a href="#3-标记-整理算法" class="headerlink" title="3.标记-整理算法"></a>3.标记-整理算法</h1><p>标记过程与标记清除算法相同，然后让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
+<h1 id="4-分代收集算法"><a href="#4-分代收集算法" class="headerlink" title="4.分代收集算法"></a>4.分代收集算法</h1><p>当前商业虚拟机都采用的算法。根据对象存活周期的不同将内存划分为几块，一般是把java堆分为新生代和老年代，然后根据各个内存区域的特点采用最适当的收集算法。在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，就适合选用复制算法。而老年代存活率高、没有额外空间进行分配担保，就必须使用标记整理或者标记清除算法进行回收。</p>
 
         </div>
       </div>

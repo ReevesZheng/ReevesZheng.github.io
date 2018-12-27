@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="Reeves">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="hexo">
+  <meta property="og:title" content="oracle相关">
   <meta property="og:description" content="">
   <meta property="og:site_name" content="Reeves">
   <meta property="og:type" content="article">
@@ -43,7 +43,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">hexo</p>
+          <p class="title">oracle相关</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -99,14 +99,14 @@
           
           <!-- Date -->
           <span class="date-time info">On
-            <span class="date">2018-12-25</span>
+            <span class="date">2018-12-27</span>
             <span class="time">15:24:45</span>
           </span>
           
           <!--  Categories  -->
             <span class="categories info">Under 
 
-<a href="/categories/hexo/">hexo</a>
+<a href="/categories/oracle/">oracle</a>
 </span>
           
         </div>
@@ -114,15 +114,49 @@
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+          <p>资源被占用</p>
+<p>1.查询被锁的会话ID：</p>
+<p>select session_id from v$locked_object;</p>
+<p>2.查询上面会话的详细信息：</p>
+<p>SELECT sid, serial#, username, osuser FROM v$session where sid =257</p>
+<p>3.将上面锁定的会话关闭：</p>
+<p>ALTER SYSTEM KILL SESSION ‘257,410’;</p>
+<p>if( ORA-00031: 标记要终止的会话){</p>
+<p>select b.spid,a.osuser,b.program </p>
+<p>  from v$session a,v$process b </p>
+<p> where a.paddr=b.addr </p>
+<p>   and a.sid=257</p>
+<p>orakill  xxx(实例名)  thread(线程)spid</p>
+<p>}</p>
+<p>1，添加表B ，和A表表结构相同（带数据）</p>
+<p>create table B  as select * from A;</p>
+<p>2，添加表B ，和A表表结构相同（不带带数据）</p>
+<p>create table B  as select * from A where 1=2;</p>
+<p>3，存在一个表B和表A的表结构一致，将A中的数据复制给B表</p>
+<p>insert into B select * from A;</p>
+<p>4，存在一个表B和表A的表结构不一致，将A中的数据复制给B表</p>
+<p>insert into B (x1,x2,x3…) select x1,x2,x3… from A;</p>
+<p>//查看创建的所以目录</p>
+<p> select * from dba_directories;</p>
+<p>//数据泵导出</p>
+<p>expdp scott/tiger@orcl schemas=scott dumpfile=expdp.dmp directory=dump_dir;</p>
+<p>impdp webgis/webgis_1234@orcl schemas=webgis dumpfile=EXPDP.DUM directory=dump_dir</p>
+<p>//创建目录</p>
+<p>create directory dump_testamber2 as ‘/home/oracle/amber2dmp’;</p>
+<p>创建表空间：</p>
+<p>格式: create tablespace 表间名 datafile ‘数据文件名’ size 表空间大小</p>
+<p>创建用户并指定表空间</p>
+<p>CREATE USER cici IDENTIFIED BY cici PROFILE DEFAULT DEFAULT TABLESPACE CICI ACCOUNT UNLOCK;</p>
+<p>drop user webgis</p>
+<p>[Err] ORA-01922: 必须指定  CASCADE</p>
+<p>drop user webgis CASCADE</p>
+<p>INDEX UNIQUE SCAN</p>
+<p>索引唯一性扫描（INDEX UNIQUE SCAN）是针对唯一性索引（UNIQUE INDEX）的扫描，它仅仅适用于where条件里是等值查询的目标SQL。</p>
+<p>因为扫描的对象是唯一性索引，所以索引唯一性扫描的结果至多只会返回一条记录。</p>
+<p>  INDEX RANGE SCAN</p>
+<p>索引范围扫描（INDEX RANGE SCAN）适用于所有类型的B树索引，当扫描的对象是唯一性索引时，此时目标SQL的where条件一定是范围查询（谓词条件为 BETWEEN、&lt;、&gt;等）；当扫描的对象是非唯一性索引时，对目标SQL的where条件没有限制（可以是等值查询，也可以是范围查询）。</p>
+<p> 索引范围扫描的结果可能会返回多条记录，其实这就是索引范围扫描中”范围”二字的本质含义。</p>
+<p>测试一:唯一索引的范围查询</p>
 
         </div>
       </div>

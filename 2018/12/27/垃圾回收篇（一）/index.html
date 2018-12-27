@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="Reeves">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="hexo">
+  <meta property="og:title" content="垃圾回收篇（一）">
   <meta property="og:description" content="">
   <meta property="og:site_name" content="Reeves">
   <meta property="og:type" content="article">
@@ -43,7 +43,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">hexo</p>
+          <p class="title">垃圾回收篇（一）</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -99,14 +99,14 @@
           
           <!-- Date -->
           <span class="date-time info">On
-            <span class="date">2018-12-25</span>
+            <span class="date">2018-12-27</span>
             <span class="time">15:24:45</span>
           </span>
           
           <!--  Categories  -->
             <span class="categories info">Under 
 
-<a href="/categories/hexo/">hexo</a>
+<a href="/categories/java/">java</a>
 </span>
           
         </div>
@@ -114,15 +114,14 @@
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+          <p>几乎每个java开发者都会知道，java中内存分配与垃圾收集都不需要开发者去维护，开发者只需要关心自己的业务逻辑即可。这一切都是垃圾收集（Garbage Collection,GC  下文简称GC）的功劳<br>GC需要完成三件事：<br>​    （1）标记那些内存需要被回收<br>​    （2）什么时候回收<br>​    （3）如何回收</p>
+<p>当垃圾收集成为系统大道更高并发量的瓶颈时，我们就需要对它的技术实施做必要的监控和调节</p>
+<p>java内存运行时，其中程序计数器、虚拟机栈、本地方法栈这三个区域随线程而生，随线程而灭；栈中栈帧随着方法的进入和退出有条不紊的出栈、入栈操作，每一个栈帧中分配多少内存基本上是类结构确定下来就是已知的。因为这几个区域的内存分配和回收都具备确定性，所以这几个区域不用过多考虑回收的问题（方法结束后，内存也自然回收了）</p>
+<p>在java堆中存放着几乎所有的对象实例，回收之前，第一步就是确定哪些对象还“存活”，哪些对象是“死去”的。</p>
+<h1 id="1-引用计数算法"><a href="#1-引用计数算法" class="headerlink" title="1.引用计数算法"></a>1.引用计数算法</h1><p>基本思想为：给对象添加一个引用计数器，每当有一个地方引用他是，计数器值就加1；每当有一个引用失效时。计数器值就减1.当计数器值为0时，就表明对象是不可能再被使用的。</p>
+<p>优点：实现简单，判定效率高<br>缺点：很难解决对象之间相互循环引用的问题</p>
+<h1 id="2-可达性分析算法"><a href="#2-可达性分析算法" class="headerlink" title="2.可达性分析算法"></a>2.可达性分析算法</h1><p>在主流的商用程序语言中（java，c#,Lisp等）的主流实现中都是通过可达性分析来判定对象是否存活<br>基本思想：通过一系列的“GC Roots”的对象作为起点，从这些节点开始向下搜索，搜索所走过的路径成为引用链，当一个对象到GC Roots没有任何引用链相连，则证明此对象是不可用的<br><img src="https://img-blog.csdn.net/20180805144631589?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>ps:在java语言中，可作为GC Roots的对象包括下面几种：<br>①虚拟机栈中引用的对象<br>②方法区中类静态属性引用的对象<br>③方法区中常量引用的对象<br>④本地方法（一般说的native方法）中引用的对象</p>
 
         </div>
       </div>

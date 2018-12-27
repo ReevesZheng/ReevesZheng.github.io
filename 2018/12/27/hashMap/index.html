@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Reeves">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="hashMap">
+  <meta property="og:description" content="">
+  <meta property="og:site_name" content="Reeves">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="Reeves" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/icon.jpg">
+  
+
+  <!-- Site Title -->
+  <title>Reeves</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">hashMap</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/ReevesZheng">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:<759981028@qq.com>">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Reeves</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2018-12-27</span>
+            <span class="time">15:24:45</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/java/">java</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <h1 id="一、什么是HashMap"><a href="#一、什么是HashMap" class="headerlink" title="一、什么是HashMap?"></a>一、什么是HashMap?</h1><p>HashMap是java中一种很常用的数据结构（用来存放数据），HashMap是一个用于存储Key-Value键值对的集合，每一个键值对也叫做Entry。这些个键值对（Entry）分散存储在一个数组当中(数组中的每一个元素都是一个Entry键值对)，这个数组就是HashMap的主干，如图：</p>
+<p><img src="https://img-blog.csdn.net/20180519221744890?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>对于HashMap最常用的操作就是get(根据key值获取value),put（将键值对存入HashMap）。</p>
+<h1 id="二、原理浅析"><a href="#二、原理浅析" class="headerlink" title="二、原理浅析"></a>二、原理浅析</h1><p>1.常用方法</p>
+<p>一般在创建HashMap的时候会一起将泛型定义，定义泛型之后只能存取对应的数据类型的key-value（否则编译器会报错）</p>
+<p><img src="https://img-blog.csdn.net/20180519222614768?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HashMap&lt;String,Object&gt; hashMap = <span class="keyword">new</span> HashMap&lt;String,Object&gt;();</span><br><span class="line">		hashMap.put(<span class="string">"数学"</span>, <span class="number">99</span>);</span><br><span class="line">		hashMap.put(<span class="string">"语文"</span>, <span class="number">90</span>);</span><br><span class="line">		hashMap.put(<span class="string">"英语"</span>, <span class="number">92</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>这里我们模拟将三科的成绩存入新建的HashMap，接下来就可以调用get获取对应的key的value值</p>
+<p><img src="https://img-blog.csdn.net/20180519223359601?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>2.原理浅析</p>
+<p>那么在调用put方法的时候发生了什么？</p>
+<p>当运行hashMap.put(“数学”, 99)，会插入一个key为数学value为99的键值对，这时候会利用一个哈希函数来确定键值对的插入位置（index ）。</p>
+<p>index =hash（“数学”）;</p>
+<p>假设index =2，结果就是：</p>
+<p><img src="https://img-blog.csdn.net/20180519224247627?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><strong>Get方法的原理</strong></p>
+<p>使用Get方法根据Key来查找Value的时候，发生了什么呢？</p>
+<p>首先会把输入的Key做一次Hash映射，得到对应的index：</p>
+<p><strong>index =  Hash（“数学”）</strong></p>
+<p>由于刚才所说的Hash冲突，同一个位置有可能匹配到多个Entry，这时候就需要顺着对应链表的头节点，一个一个向下来查找。假设我们要查找的Key是“数学”，这时候会拿着这个key去和每个键值对的key比较，如果相等，则返回对应key的value值</p>
+<p>由于HashMap的长度是有限的（默认为16），当插入的键值对越来越多的时候，不同的key值通过hash函数运算出的结果可能出现相同的值，这时候就会产生链表</p>
+<p><img src="https://img-blog.csdn.net/20180519225230471?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>当有另外的键值对的hashcode值与原本hashMap中键值对的hashcode值重复时，就会产生如图的链表，新的entry键值对会放置在链表的头节点上。在日常开发中为了保证hashMap的快速存取，应当避免产生链表，当产生链表时，调用get方法效率会变低。</p>
+<p>那么怎么避免产生链表呢？</p>
+<p>hash函数的算法就是：（Length是HashMap的长度）利用每个键值对的key的HashCode与hashMap的长度进行位运算（&amp;符号有兴趣可以百度一下原理）</p>
+<p>index =  HashCode（Key） &amp;  （Length - 1）</p>
+<p>从公式上可以看出影响index的因素有两个，一个是key的HashCode，另一个是hashMap的长度。</p>
+<p>（1）重写key类型的HashCode方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="comment">//true表示男，false表示女</span></span><br><span class="line">    <span class="keyword">boolean</span> sex;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">17</span>;</span><br><span class="line">        result = <span class="number">37</span>*result+name.hashCode();</span><br><span class="line">        result = <span class="number">37</span>*result+age;</span><br><span class="line">        result = <span class="number">37</span>*result+(sex ? <span class="number">0</span> : <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> obj <span class="keyword">instanceof</span> Student &amp;&amp;</span><br><span class="line">                <span class="keyword">this</span>.name.equals(((Student)obj).name) &amp;&amp;</span><br><span class="line">                <span class="keyword">this</span>.age ==  ((Student)obj).age &amp;&amp;</span><br><span class="line">                <span class="keyword">this</span>.sex == ((Student)obj).sex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>如果key的类型是String的话（String是继承Object类的final方法不能被重写），就不能重写了。</p>
+<p>（2）改变hashMap的长度</p>
+<p>1&gt;初始化hashMap对象时可以设置长度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HashMap&lt;String,Object&gt; hashMap = <span class="keyword">new</span> HashMap&lt;String,Object&gt;(<span class="number">1024</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>长度应当为2的整数次幂（使hash方法结果分布均匀）</p>
+<p>2&gt;没有设置初始长度，会自动扩容</p>
+<p><img src="https://img-blog.csdn.net/20180519233341325?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>当hashMap中的元素数量达到长度的0.75倍时会自动扩容到原长度的2倍，然后重建hashMap，由于长度的变化，会重新运算原有键值对的index，会影响部分性能，如果要存放的元素数量较大时建议初始化时设置长度。</p>
+<h1 id="一、hashmap多线程并发时存在的问题"><a href="#一、hashmap多线程并发时存在的问题" class="headerlink" title="一、hashmap多线程并发时存在的问题"></a>一、hashmap多线程并发时存在的问题</h1><p>Hashmap不是线程安全的。在高并发环境下做插入操作，有可能出现下面的环形链表：</p>
+<p><img src="https://img-blog.csdn.net/20180520203012702?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>首先要了解rehash，rehash是hashmap扩容时的一个步骤。</p>
+<p>由于hashmap的长度是有限的，当经过多次元素的插入，hashmap可用长度变小，key值映射位置发生冲突的几率也会变大，这时候hashmap就会扩充它的长度，也就是扩容（<strong>resize</strong>）</p>
+<p>影响发生Resize的因素有两个：</p>
+<p>1.Capacity</p>
+<p>HashMap的当前长度。一般来说，HashMap的长度是2的幂。</p>
+<p>2.LoadFactor</p>
+<p>HashMap负载因子，默认值为0.75f。</p>
+<p>衡量HashMap是否进行Resize的条件如下：</p>
+<p>HashMap.Size   &gt;=  Capacity * LoadFactor</p>
+<p>也就是当已用长度是总长度的75%时，hashmap会扩容（<strong>resize</strong>）</p>
+<p>resize会有两个步骤</p>
+<p>1.扩容</p>
+<p>创建一个新的Entry空数组，长度是原数组的2倍。</p>
+<p>2.ReHash</p>
+<p>遍历原Entry数组，把所有的Entry重新Hash到新数组。为什么要重新Hash呢？因为长度扩大以后，Hash的规则也随之改变。</p>
+<p>index =  HashCode（Key） &amp;  （Length - 1）</p>
+<p>length是hashmap的长度</p>
+<p><img src="https://img-blog.csdn.net/20180520203823991?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>rehash源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Transfers all entries from current table to newTable.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable, <span class="keyword">boolean</span> rehash)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">null</span> != e) &#123;</span><br><span class="line">            Entry&lt;K,V&gt; next = e.next;</span><br><span class="line">            <span class="keyword">if</span> (rehash) &#123;</span><br><span class="line">                e.hash = <span class="keyword">null</span> == e.key ? <span class="number">0</span> : hash(e.key);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</span><br><span class="line">            e.next = newTable[i];</span><br><span class="line">            newTable[i] = e;</span><br><span class="line">            e = next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>那么为什么在多线程并发的时候hashmap会出现什么问题呢</p>
+<p>参考</p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&amp;mid=2653192000&amp;idx=1&amp;sn=118cee6d1c67e7b8e4f762af3e61643e&amp;chksm=8c990d9abbee848c739aeaf25893ae4382eca90642f65fc9b8eb76d58d6e7adebe65da03f80d&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzIxMjE5MTE1Nw==&amp;mid=2653192000&amp;idx=1&amp;sn=118cee6d1c67e7b8e4f762af3e61643e&amp;chksm=8c990d9abbee848c739aeaf25893ae4382eca90642f65fc9b8eb76d58d6e7adebe65da03f80d&amp;scene=21#wechat_redirect</a></p>
+<p>总结一下就是：</p>
+<p>1.Hashmap在插入元素过多的时候需要进行Resize，Resize的条件是</p>
+<p>HashMap.Size   &gt;=  Capacity * LoadFactor。</p>
+<p>2.Hashmap的Resize包含扩容和ReHash两个步骤，ReHash在并发的情况下可能会形成链表环。</p>
+<h1 id="二、怎么保证hashmap是线程安全的"><a href="#二、怎么保证hashmap是线程安全的" class="headerlink" title="二、怎么保证hashmap是线程安全的"></a>二、怎么保证hashmap是线程安全的</h1><p>（1）改用hashtable或者Collections.synchronizeMap(这两者在读写操作时会给整个集合加锁，导致同一时间其他操作阻塞，影响性能)</p>
+<p>（2）ConcurrentHashmap(保证线程安全，而且性能优于hashtable或者Collections.synchronizeMap)</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+

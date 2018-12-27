@@ -8,10 +8,10 @@
   <meta name="description" content="">
   <meta name="author" content="Reeves">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="Reeves">
+  <meta property="og:title" content="垃圾回收篇（三）">
   <meta property="og:description" content="">
   <meta property="og:site_name" content="Reeves">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
   <meta property="og:image" content="http://yoursite.com">
   
     <link rel="alternate" href="/atom.xml" title="Reeves" type="application/atom+xml">
@@ -35,8 +35,7 @@
 </head>
 
   <body>
-    <!-- Archive Header -->
-<!-- Page Header -->
+    <!-- Page Header -->
 
 
 <header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
@@ -44,7 +43,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">Blog Archives</p>
+          <p class="title">垃圾回收篇（三）</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -89,106 +88,43 @@
   </div>
 </header>
 
-<!-- Archive List -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      
-        <div class="archive-item">
-  <a href="/2018/12/27/oracle相关/" class="post-title">
-    oracle相关
-  </a>
-  <div class="date text-muted">Posted on 2018-12-27 15:23:54</div>
-</div>
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Reeves</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2018-12-27</span>
+            <span class="time">15:24:45</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
 
-      
-        <div class="archive-item">
-  <a href="/2018/12/27/hashMap/" class="post-title">
-    hashMap
-  </a>
-  <div class="date text-muted">Posted on 2018-12-27 15:18:49</div>
-</div>
+<a href="/categories/java/">java</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>这篇主要聊回收方法区<br>​       很多人认为方法区（HotSpot虚拟机中的永久代）是没有垃圾收集的，java虚拟机规范中确实说过可以不要求虚拟机在方法区实现垃圾收集，是因为方法区中垃圾收集的“性价比”一般比较低。<br>​       永久代的垃圾收集主要回收两部分内容：</p>
+<h1 id="1-废弃常量"><a href="#1-废弃常量" class="headerlink" title="1.废弃常量"></a>1.废弃常量</h1><p>​         废弃常量与java堆中的对象非常类似。以String的常量池中的字面量为列子，加入一个字符串已经进入了常量池，但是当前系统中没有任何String对象引用到这个字符串常量，也没有其他地方引用。如果这时候发生内存回收，而且必要的话，这个常量将被系统清理出常量池。常量池中的其他接口、方法、字段的符号引用也与此类似。<br>​         </p>
+<h1 id="2-无用的类"><a href="#2-无用的类" class="headerlink" title="2.无用的类"></a>2.无用的类</h1><p>类需要同时满足下面3个条件才能算是“无用的类”：<br>（1）该类的所有实例对象都已经被回收，也就是java堆中不存在该类的实例。<br>（2）加载该类的ClassLoader已经被回收<br>（3）该类对应的java.lang.Class对象没有在任何地方被引用，无法再任何地方通过反射访问该类的方法。</p>
+<p>虚拟机<strong>可以</strong>对满足上述3个条件的类进行回收，仅仅是可以，并不是像对象那样，不用就回收掉</p>
+<p>​    </p>
 
-      
-        <div class="archive-item">
-  <a href="/2018/12/27/垃圾回收篇（四）/" class="post-title">
-    垃圾回收篇（四）
-  </a>
-  <div class="date text-muted">Posted on 2018-12-27 15:13:11</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2018/12/27/垃圾回收篇（三）/" class="post-title">
-    垃圾回收篇（三）
-  </a>
-  <div class="date text-muted">Posted on 2018-12-27 15:11:44</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2018/12/27/垃圾回收篇（二）/" class="post-title">
-    垃圾回收篇（二）
-  </a>
-  <div class="date text-muted">Posted on 2018-12-27 15:10:31</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2018/12/27/垃圾回收篇（一）/" class="post-title">
-    垃圾回收篇（一）
-  </a>
-  <div class="date text-muted">Posted on 2018-12-27 15:06:18</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2018/12/27/对象的存在/" class="post-title">
-    对象的存在
-  </a>
-  <div class="date text-muted">Posted on 2018-12-27 14:59:26</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2018/12/27/类的加载/" class="post-title">
-    类的加载
-  </a>
-  <div class="date text-muted">Posted on 2018-12-27 14:50:18</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2018/12/26/java虚拟机之虚拟机内存区域/" class="post-title">
-    java虚拟机之虚拟机内存区域
-  </a>
-  <div class="date text-muted">Posted on 2018-12-26 11:14:01</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2018/12/25/hexo/" class="post-title">
-    hexo
-  </a>
-  <div class="date text-muted">Posted on 2018-12-25 10:13:54</div>
-</div>
-
-      
-
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<!-- Pagination -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-10 col-md-10 col-md-offset-1">
-      <ul class="pagination">
-          
-          
-      </ul>
-    </div>
-  </div>
-</div>
+</article>
 
 
 

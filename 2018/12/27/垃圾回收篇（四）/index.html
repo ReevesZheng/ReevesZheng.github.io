@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Reeves">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="垃圾回收篇（四）">
+  <meta property="og:description" content="">
+  <meta property="og:site_name" content="Reeves">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="Reeves" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/icon.jpg">
+  
+
+  <!-- Site Title -->
+  <title>Reeves</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">垃圾回收篇（四）</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/ReevesZheng">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:<759981028@qq.com>">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Reeves</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2018-12-27</span>
+            <span class="time">15:24:45</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/java/">java</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>这篇主要聊各种垃圾收集器</p>
+<p>一、什么是垃圾收集器<br>垃圾收集器是内存回收的具体实现。java虚拟机规范中对垃圾收集器应该如何实现没有任何规定，因此不同厂商、不同版本的虚拟机所提供的垃圾收集器都可能有很大的差别，并且一般都会提供参数供用户根据自己的应用特点和要求组合出各个年代所使用的垃圾收集器。下图为HotSpot虚拟机的垃圾收集器<br><img src="https://img-blog.csdn.net/20180909161504734?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNDY4Nzk1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>如上图，总共有7中作用于不同分代的垃圾收集器，两个垃圾收集器之间存在连线，就说明它们可以搭配使用。将上下分为新生代与老年代，收集器所在区域则表示它是哪个分代的收集器。</p>
+<p>二、各种垃圾收集器<br>1.Serial收集器<br>​        Serial收集器是最基本，发展历史最悠久的收集器。是一个单线程的收集器，在进行垃圾收集器时，必须暂停其他所有工作线程，直到垃圾收集结束（下文简称“Stop The World”）。<br>​        优点：简单而高效，没有切换线程的开销（常运行在client模式下的虚拟机）<br>2.ParNew收集器<br>​        ParNew收集器时Serial收集器的多线程版本。除了使用多条线程进行垃圾收集之外，其余行为包括Serial控制参数、收集算法、Stop The World、对象分配原则、回收策略等都与Serial收集器相同。<br>​        是许多运行在Server模式下的虚拟机中首选的新生代收集器，最重要的原因是，除了Serial收集器外，只有它能与CMS收集器配合工作。<br>​        ParNew收集器在单CPU的环境中绝对不会比Serial收集器的效率高，甚至由于线程切换的开销，在两个CPU的环境中都不能百分百保证可以超越Serial。当然随着可使用的CPU的数量的增加，它对于GC时系统资源的有效利用还是很有好处的。<br>​        3.Parallel Scavenge<br>​        Parallel Scavenge收集器目的是达到一个可控制的吞吐量。<br>​<br>ps:吞吐量就是CPU用于运行用地代码的时间与CPU总消耗的时间的比值（运行用户代码的时间/（运行用户代码的时间+垃圾收集时间））<br>​        适用于需要与用户交互的程序，良好的响应速度能提升用户体验，高吞吐量可以高效率的利用CPU时间。</p>
+<p>4.Serial Old收集器<br> 是Serial 的老年代版本。它同样是一个单线程的收集器，主要意义是给client模式下的虚拟机使用。jdk1.5及以前的版本中与ParallelScavenge收集器搭配使用，另一种用途就是CMS收集器的后备预案。</p>
+<p>5.Parallel Old收集器<br>是ParallelScavenge收集器的老年代版本</p>
+<p>6.CMS收集器<br>CMS（Concurrent Mark Sweep）收集器时一种以获取最短回收停顿时间为目标的并发收集器。响应速度快 、系统停顿时间最短。 </p>
+<p>7.G1收集器<br>​    G1（Garbage-first）是一款面向服务端应用的垃圾收集器。具有如下特点<br>​    （1）并发与并行：能充分利用多CPU、多核环境下的硬件优势，缩短Stop The World停顿的时间。<br>​    （2）分代收集:独立管理整个GC堆，保留分代概念。<br>​    （3）空间整合：基于“标记–整理”算法，运作期间不会产生内存空间碎片，收集后可以提供规整可用的内存。<br>​    （4）可预测停顿：建立可预测的停顿时间模型</p>
+<p>​        </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
